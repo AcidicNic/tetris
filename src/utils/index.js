@@ -163,10 +163,12 @@ export const defaultState = () => {
     speed: 1000,
     // Game isn't over yet
     gameOver: false,
+    scoreSaved: false,
     // Rows completed
     lines: 0,
     // level
-    level: 0
+    level: 0,
+    highScore: getHighScore()
   }
 }
 
@@ -183,7 +185,6 @@ export const prevRotation = (shape, rotation) => {
 
 export const canMoveTo = (shape, grid, x, y, rotation) => {
   const currentShape = shapes[shape][rotation]
-  console.log(currentShape)
 
   const gridWidth = grid[0].length - 1
   const gridHeight = grid.length - 1
@@ -251,4 +252,36 @@ export const calculateSpeed = (level) => {
     return 1000 - (level * 50)
   }
   return 100
+}
+
+const HIGH_SCORE = "HIGH_SCORE"
+
+export const getHighScore = () => {
+  try {
+  // Grab the state from local storage
+    const serializedState = localStorage.getItem(HIGH_SCORE)
+    if (serializedState === null) {
+      return 0
+    }
+    // convert the string into JSON for the Redux store
+    return JSON.parse(serializedState)
+  } catch(err) {
+    return 0
+  }
+}
+
+export const saveHighScore = (score) => {
+  try {
+    let highScore = getHighScore()
+    if (!highScore) {
+      localStorage.setItem("HIGH_SCORE", JSON.stringify(score))
+      return
+    }
+    if (highScore < score) {
+      localStorage.setItem("HIGH_SCORE", JSON.stringify(score))
+    }
+
+  } catch(err) {
+    console.log(err)
+  }
 }

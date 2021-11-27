@@ -11,11 +11,12 @@ import {
   addBlockToGrid,
   checkRows,
   calculateLevel,
-  calculateSpeed
+  calculateSpeed,
+  saveHighScore
 } from '../utils'
 
 const gameReducer = (state = defaultState(), action) => {
-  const { shape, grid, x, y, rotation, nextShape, score, isRunning, lines, level, speed } = state
+  const { shape, grid, x, y, rotation, nextShape, score, isRunning, lines, level, speed, scoreSaved } = state
 
   switch(action.type) {
       case ROTATE:
@@ -57,6 +58,10 @@ const gameReducer = (state = defaultState(), action) => {
           const newState = { ...state }
           newState.shape = 0
           newState.grid = newGrid
+          if (!scoreSaved) {
+            saveHighScore(score)
+            return { ...state, gameOver: true, scoreSaved: true }
+          }
           return { ...state, gameOver: true }
         }
 
