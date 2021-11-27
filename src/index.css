@@ -99,6 +99,10 @@ body {
   grid-gap: 1px;
 }
 
+.next-title {
+  margin-bottom: 5px;
+}
+
 .next-block {
   display: grid;
   grid-template-columns: repeat(4, var(--tile-size));

@@ -6,12 +6,13 @@ import { pause, resume, restart } from '../actions'
 export default function ScoreBoard(props) {
   const dispatch = useDispatch()
   const game = useSelector((state) => state.game)
-  const { score, isRunning, gameOver } = game
+  const { score, isRunning, gameOver, lines, level, speed } = game
 
   return (
     <div className="score-board">
-      <div>Score:{ score }</div>
-      <div>Level: 1</div>
+      <div>Level: { level }</div>
+      <div>Lines: { lines }</div>
+      <div>Score: { score }</div>
       <button className="score-board-button" onClick={(e) => {
         if (gameOver) { return }
         if (isRunning) {

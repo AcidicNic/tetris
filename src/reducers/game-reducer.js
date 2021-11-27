@@ -9,11 +9,12 @@ import {
   canMoveTo,
   addBlockToGrid,
   checkRows,
-  randomShape
+  calculateLevel,
+  calculateSpeed
 } from '../utils'
 
 const gameReducer = (state = defaultState(), action) => {
-  const { shape, grid, x, y, rotation, nextShape, score, isRunning } = state
+  const { shape, grid, x, y, rotation, nextShape, score, isRunning, lines, level, speed } = state
 
   switch(action.type) {
       case ROTATE:
@@ -56,9 +57,15 @@ const gameReducer = (state = defaultState(), action) => {
         newState.shape = nextShape
         newState.score = score
         newState.isRunning = isRunning
+        newState.lines = lines
+        newState.level = level
+        newState.speed = speed
 
-        // TODO: Check and Set level
-        newState.score = score + checkRows(newGrid)
+        const newScore = checkRows(newGrid)
+        newState.score = score + (newScore.points * (level + 1))
+        newState.lines = lines + newScore.lines
+        newState.level = calculateLevel(newState.lines)
+        newState.speed = calculateSpeed(newState.level)
 
         return newState
 

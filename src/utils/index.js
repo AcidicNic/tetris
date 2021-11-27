@@ -139,8 +139,8 @@ export const defaultState = () => {
     shape: randomShape(),
     // set rotation of the shape to 0
     rotation: 0,
-    // set the 'x' position of the shape to 5 and y to -4, which puts the shape in the center of the grid, above the top
-    x: 5,
+    // center of the grid, above the top
+    x: 4,
     y: -4,
     // set the index of the next shape to a new random shape
     nextShape: randomShape(),
@@ -151,7 +151,11 @@ export const defaultState = () => {
     // Set the default speed
     speed: 1000,
     // Game isn't over yet
-    gameOver: false
+    gameOver: false,
+    // Rows completed
+    lines: 0,
+    // level
+    level: 0
   }
 }
 
@@ -161,6 +165,10 @@ export const nextRotation = (shape, rotation) => {
 
 export const canMoveTo = (shape, grid, x, y, rotation) => {
   const currentShape = shapes[shape][rotation]
+
+  const gridWidth = grid[0].length - 1
+  const gridHeight = grid.length - 1
+
   for (let row = 0; row < currentShape.length; row++) {
     for (let col = 0; col < currentShape[row].length; col++) {
       if (currentShape[row][col] !== 0) {
@@ -170,12 +178,12 @@ export const canMoveTo = (shape, grid, x, y, rotation) => {
           continue
         }
         const possibleRow = grid[proposedY]
-        if (possibleRow) {
-          if (possibleRow[proposedX] === undefined || possibleRow[proposedX] !== 0) {
+        if (proposedX < 0 || proposedX > gridWidth || proposedY > gridHeight) {
+          return false
+        } else if (possibleRow !== undefined) {
+          if (possibleRow[proposedX] !== 0) {
             return false
           }
-        } else {
-          return false
         }
       }
     }
@@ -212,5 +220,16 @@ export const checkRows = (grid) => {
       grid.unshift(Array(10).fill(0))
     }
   }
-  return points[completedRows]
+  return {points: points[completedRows], lines: completedRows}
+}
+
+export const calculateLevel = (linesCleared) => {
+  return Math.floor(linesCleared / 4)
+}
+
+export const calculateSpeed = (level) => {
+  if (level <= 18) {
+    return 1000 - (level * 50)
+  }
+  return 100
 }
