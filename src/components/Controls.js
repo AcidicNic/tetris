@@ -16,7 +16,10 @@ export default function Controls(props) {
         onClick={ (e) => {
           if (!isRunning || gameOver) { return }
           dispatch(moveLeft())
-      }}>Left</button>
+        }}><img
+          className="control-icon"
+          src={`${process.env.PUBLIC_URL}/icons/arrow-left.svg`}/>
+      </button>
 
       <button
         className="control-button"
@@ -24,7 +27,10 @@ export default function Controls(props) {
         onClick={ (e) => {
           if (!isRunning || gameOver) { return }
           dispatch(moveRight())
-      }}>Right</button>
+      }}><img
+        className="control-icon"
+        src={`${process.env.PUBLIC_URL}/icons/arrow-right.svg`}/>
+    </button>
 
       <button
         className="control-button"
@@ -32,7 +38,10 @@ export default function Controls(props) {
         onClick={ (e) => {
           if (!isRunning || gameOver) { return }
           dispatch(rotate())
-      }}>Rotate</button>
+      }}><img
+        className="control-icon"
+        src={`${process.env.PUBLIC_URL}/icons/arrow-rotate.svg`}/>
+    </button>
 
       <button
         className="control-button"
@@ -40,7 +49,10 @@ export default function Controls(props) {
         onClick={ (e) => {
           if (!isRunning || gameOver) { return }
           dispatch(moveDown())
-      }}>Down</button>
+      }}><img
+        className="control-icon"
+        src={`${process.env.PUBLIC_URL}/icons/arrow-down.svg`}/>
+    </button>
     </div>
   )
 }
