@@ -17,6 +17,17 @@ export const gridDefault = () => {
   return array
 }
 
+export const controlKeys = {
+  left: ["ArrowLeft", "Left", "a"],
+  right: ["ArrowRight", "Right", "d"],
+  down: ["ArrowDown", "Down", "s"],
+  rotate: ["ArrowUp", "Up", "w", "x"],
+  rotatePrev: ["q", "z"],
+  pause: ["Escape", "Enter"],
+  resume: ["Escape", "Enter"],
+  restart: [" ", "Enter"]
+}
+
 export const shapes = [
   // none
   [[[0,0,0,0],
@@ -163,8 +174,16 @@ export const nextRotation = (shape, rotation) => {
   return (rotation + 1) % shapes[shape].length
 }
 
+export const prevRotation = (shape, rotation) => {
+  if (rotation === 0) {
+    return shapes[shape].length - 1
+  }
+  return (rotation - 1) % shapes[shape].length
+}
+
 export const canMoveTo = (shape, grid, x, y, rotation) => {
   const currentShape = shapes[shape][rotation]
+  console.log(currentShape)
 
   const gridWidth = grid[0].length - 1
   const gridHeight = grid.length - 1

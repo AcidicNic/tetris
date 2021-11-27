@@ -1,11 +1,12 @@
 import {
   MOVE_RIGHT, MOVE_LEFT, MOVE_DOWN, ROTATE,
-  PAUSE, RESUME, RESTART, GAME_OVER
+  ROTATE_PREV, PAUSE, RESUME, RESTART, GAME_OVER
 } from '../actions'
 
 import {
   defaultState,
   nextRotation,
+  prevRotation,
   canMoveTo,
   addBlockToGrid,
   checkRows,
@@ -18,9 +19,16 @@ const gameReducer = (state = defaultState(), action) => {
 
   switch(action.type) {
       case ROTATE:
-        const newRotation = nextRotation(shape, rotation)
-        if (canMoveTo(shape, grid, x, y, newRotation)) {
-            return { ...state, rotation: newRotation }
+        const newCwRotation = nextRotation(shape, rotation)
+        if (canMoveTo(shape, grid, x, y, newCwRotation)) {
+            return { ...state, rotation: newCwRotation }
+        }
+        return state
+
+      case ROTATE_PREV:
+        const newCcwRotation = prevRotation(shape, rotation)
+        if (canMoveTo(shape, grid, x, y, newCcwRotation)) {
+            return { ...state, rotation: newCcwRotation }
         }
         return state
 

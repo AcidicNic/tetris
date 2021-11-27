@@ -6,7 +6,7 @@ import { pause, resume, restart } from '../actions'
 export default function ScoreBoard(props) {
   const dispatch = useDispatch()
   const game = useSelector((state) => state.game)
-  const { score, isRunning, gameOver, lines, level, speed } = game
+  const { score, isRunning, gameOver, lines, level } = game
 
   return (
     <div className="score-board">
