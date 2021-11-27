@@ -182,3 +182,29 @@ export const canMoveTo = (shape, grid, x, y, rotation) => {
   }
   return true
 }
+
+export const addBlockToGrid = (shape, grid, x, y, rotation) => {
+  const block = shapes[shape][rotation];
+  const newGrid = [...grid];
+  for (let row = 0; row < block.length; row++) {
+    for (let col = 0; col < block[row].length; col++) {
+      if (block[row][col]) {
+        newGrid[row + y][col + x] = shape;
+      }
+    }
+  }
+  return newGrid;
+}
+
+export const checkRows = (grid) => {
+  const points = [0, 40, 100, 300, 1200]
+  let completedRows = 0
+  for (let row = 0; row < grid.length; row++) {
+    if (grid[row].indexOf(0) === -1) {
+      completedRows += 1
+      grid.splice(row, 1)
+      grid.unshift(Array(10).fill(0))
+    }
+  }
+  return points[completedRows]
+}
