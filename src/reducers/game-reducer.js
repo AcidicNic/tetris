@@ -17,7 +17,6 @@ import {
 
 const gameReducer = (state = defaultState(), action) => {
   const { shape, grid, x, y, rotation, nextShape, score, isRunning, lines, level, speed, scoreSaved } = state
-
   switch(action.type) {
       case ROTATE:
         const newCwRotation = nextRotation(shape, rotation)

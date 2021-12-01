@@ -194,9 +194,6 @@ export const canMoveTo = (shape, grid, x, y, rotation) => {
       if (currentShape[row][col] !== 0) {
         const proposedX = col + x
         const proposedY = row + y
-        if (proposedY < 0) {
-          continue
-        }
         const possibleRow = grid[proposedY]
         if (proposedX < 0 || proposedX > gridWidth || proposedY > gridHeight) {
           return false
