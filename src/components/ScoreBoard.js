@@ -24,7 +24,7 @@ export default function ScoreBoard(props) {
       <button className="score-board-button" onClick={(e) => {
         dispatch(restart())
       }}>Restart</button>
-      <div>High Score: { highScore }</div>
+      <div>High Score: { Math.max(score, highScore) }</div>
     </div>
   )
 }
