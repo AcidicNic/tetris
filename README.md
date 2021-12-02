@@ -7,7 +7,7 @@ Try it out [here](https://nicc.io/tetris)!
 
 The game will progressively get faster as you level up.
 
-Clear 4 lines to level up!
+Clear 3 lines to level up!
 
 You get more points by clearing multiple lines at once. You also get more points per line clear, the higher your level is.
 

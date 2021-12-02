@@ -11,6 +11,7 @@ import HoldBlock from './components/HoldBlock'
 import ScoreBoard from './components/ScoreBoard'
 import Controls from './components/Controls'
 import MessagePopup from './components/MessagePopup'
+import Info from './components/Info'
 
 const store = createStore(reducers)
 
@@ -27,6 +28,7 @@ function App() {
         <Controls />
         <MessagePopup />
       </div>
+      <Info />
     </Provider>
   );
 }

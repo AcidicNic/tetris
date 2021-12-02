@@ -293,7 +293,7 @@ export const moveBlockDown = (state, moveInc = 1) => {
 }
 
 export const calculateLevel = (linesCleared) => {
-  return Math.floor(linesCleared / 2)
+  return Math.floor(linesCleared / 3)
 }
 
 export const calculateSpeed = (level) => {

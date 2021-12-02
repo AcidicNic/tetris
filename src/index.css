@@ -9,23 +9,17 @@ body {
 }
 
 :root {
-  --bg-color: rgba(150, 150, 150, 1);
-
-  /* Border Colors are all transparent colors. These will tint or shade the background color of the square. */
-  --border-left-color: rgba(255, 255, 255, 0.20);
-  --border-top-color: rgba(255, 255, 255, 0.33);
-  --border-right-color: rgba(0, 0, 0, 0.15);
-  --border-bottom-color: rgba(0, 0, 0, 0.5);
+  --bg-color: rgba(255, 255, 255, 1);
 
   /* Square Colors:  background colors for the squares.*/
-  --color-0: #eaeaea;
-  --color-1: #ff6600;
-  --color-2: #eec900;
-  --color-3: #0000ff;
-  --color-4: #cc00ff;
-  --color-5: #00ff00;
-  --color-6: #66ccff;
-  --color-7: #ff0000;
+  --color-0: #e0e0e0;
+  --color-1: #ffac5e;
+  --color-2: #ffda5f;
+  --color-3: #7ed6ff;
+  --color-4: #f799ff;
+  --color-5: #7bed64;
+  --color-6: #cd99ff;
+  --color-7: #ff5b5b;
 
   /* Button Colors */
   --button-color-t: rgba(200, 200, 200, 1);
@@ -75,15 +69,9 @@ body {
 }
 
 .grid-square {
-  /* border-style: solid; */
   width: var(--tile-size);
   height: var(--tile-size);
-  /* border-width: var(--border-width);
-  border-left-color: var(--border-left-color);
-  border-top-color: var(--border-top-color);
-  border-right-color: var(--border-right-color);
-  border-bottom-color: var(--border-bottom-color); */
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 * {
@@ -139,25 +127,39 @@ body {
   --col-center: calc(var(--tile-size) * 10 + var(cols) - 1);
   --grid-height: calc(var(--tile-size) * 18 + var(rows) - 1);
 
-  width: calc(var(--tile-size) * (4 + 1 + 10 + 1 + 4) );
+  width: calc(var(--col-side) * 2 + var(--col-center));
   margin: auto;
   display: grid;
 
-  grid-gap: var(--tile-size) var(--tile-size);
+  grid-gap: /*var(--tile-size)*/ var(--tile-size);
   grid-template-columns: var(--col-side) var(--col-center) var(--col-side);
-  grid-template-rows: 100px var(--grid-height) 100px;
+  grid-template-rows: /*100px*/ var(--grid-height) 100px ;
 
-  grid-template-areas: "h h h"
+  grid-template-areas: /*". h ."*/
                        "l c r"
                        ". b .";
 }
 
-.App-header {
-  grid-area: h;
+#root {
+  display: inline-block;
+  background-color: var(--bg-color);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.high-score {
+  margin-top: 5px;
+  /* grid-area: b; */
+}
+
+
+.controls-wrapper {
+  grid-area: b;
 }
 
 .controls {
-  grid-area: b;
   display: flex;
   flex-direction: row;
   grid-gap: 5px;
@@ -167,6 +169,7 @@ body {
 
 .control-button {
   --size: calc(var(--tile-size) * 2.5);
+  background-color: var(--color-0);
   height: var(--size);
   text-align: center;
   display: block;
@@ -183,15 +186,30 @@ body {
   grid-area: c;
   z-index: 1;
   background-color: rgba(255, 255, 255, 0.7);
-  text-align: center;
-}
-
-
-.message-popup * {
-  margin-top: 50%;
-  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 209px;
 }
 
 .message-popup.hidden {
   display: none;
+}
+
+.help-table {
+  margin: auto;
+  margin-top: 20px;
+  text-align: left;
+}
+
+
+#footer > div > a:hover, .navbar-brand:hover * {
+    color: white !important;
+}
+
+.no-ul, .no-ul:hover {
+    text-decoration: none;
+}
+.bg-trans-hov:hover {
+  background-color: rgb(0, 0, 0, .65);
 }
