@@ -147,7 +147,7 @@ export const randomShape = () => {
 export const defaultValues = {
   x: 4,
   y: -4,
-  speed: 1000,
+  speed: 500,
 }
 
 export const defaultState = () => {
@@ -297,10 +297,11 @@ export const calculateLevel = (linesCleared) => {
 }
 
 export const calculateSpeed = (level) => {
-  if (level <= 9) {
-    return 1000 - (level * 100)
+  let speed = defaultValues.speed - (level * 100)
+  if (speed >= 100) {
+    return speed
   }
-  return 100
+  return 50
 }
 
 const HIGH_SCORE = "HIGH_SCORE"
