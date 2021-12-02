@@ -23,9 +23,11 @@ export const controlKeys = {
   down: ["ArrowDown", "Down", "s"],
   rotate: ["ArrowUp", "Up", "w", "x"],
   rotatePrev: ["q", "z"],
+  holdShape: ["c", "e"],
+  drop: [" "],
   pause: ["Escape", "Enter"],
   resume: ["Escape", "Enter"],
-  restart: [" ", "Enter"]
+  restart: [" ", "Enter"],
 }
 
 export const shapes = [
@@ -142,6 +144,12 @@ export const randomShape = () => {
   return random(1, shapes.length - 1)
 }
 
+export const defaultValues = {
+  x: 4,
+  y: -4,
+  speed: 1000,
+}
+
 export const defaultState = () => {
   return {
     // Create an empty grid
@@ -151,16 +159,19 @@ export const defaultState = () => {
     // set rotation of the shape to 0
     rotation: 0,
     // center of the grid, above the top
-    x: 4,
-    y: -4,
+    x: defaultValues.x,
+    y: defaultValues.y,
     // set the index of the next shape to a new random shape
     nextShape: randomShape(),
+    // holding nothing
+    holdShape: 0,
+    canHoldShape: true,
     // Tell the game that it's currently running
     isRunning: true,
     // Set the score to 0
     score: 0,
     // Set the default speed
-    speed: 1000,
+    speed: defaultValues.speed,
     // Game isn't over yet
     gameOver: false,
     scoreSaved: false,
@@ -240,13 +251,54 @@ export const checkRows = (grid) => {
   return {points: points[completedRows], lines: completedRows}
 }
 
+export const moveBlockDown = (state, moveInc = 1) => {
+  const { shape, grid, x, y, rotation, nextShape, holdShape,
+    score, isRunning, lines, level, speed, scoreSaved, canHoldShape } = state
+  const maybeY = y + moveInc
+  if (canMoveTo(shape, grid, x, maybeY, rotation)) {
+    return { ...state, y: maybeY }
+  }
+  const obj = addBlockToGrid(shape, grid, x, y, rotation)
+  const newGrid = obj.grid
+  const gameOver = obj.gameOver
+
+  if (gameOver) {
+    const newState = { ...state }
+    newState.shape = 0
+    newState.grid = newGrid
+    if (!scoreSaved) {
+      saveHighScore(score)
+      return { ...state, gameOver: true, scoreSaved: true }
+    }
+    return { ...state, gameOver: true }
+  }
+
+  const newState = defaultState()
+  newState.grid = newGrid
+  newState.shape = nextShape
+  newState.holdShape = holdShape
+  newState.score = score
+  newState.isRunning = isRunning
+  newState.lines = lines
+  newState.level = level
+  newState.speed = speed
+
+  const newScore = checkRows(newGrid)
+  newState.score = score + (newScore.points * (level + 1))
+  newState.lines = lines + newScore.lines
+  newState.level = calculateLevel(newState.lines)
+  newState.speed = calculateSpeed(newState.level)
+
+  return newState
+}
+
 export const calculateLevel = (linesCleared) => {
-  return Math.floor(linesCleared / 4)
+  return Math.floor(linesCleared / 2)
 }
 
 export const calculateSpeed = (level) => {
-  if (level <= 18) {
-    return 1000 - (level * 50)
+  if (level <= 9) {
+    return 1000 - (level * 100)
   }
   return 100
 }

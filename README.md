@@ -18,6 +18,7 @@ You get more points by clearing multiple lines at once. You also get more points
 | Move Left | Left Arrow, A |
 | Move Right | Right Arrow, D |
 | Move Down | Down Arrow, S |
+| Hold Piece | C, E |
 | Rotate Clockwise | Up Arrow, W, X |
 | Rotate Counterclockwise | Q, Z |
 | Pause / Unpause | Escape, Enter |

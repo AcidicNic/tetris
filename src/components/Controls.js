@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { moveDown, moveLeft, moveRight, rotate, rotatePrev, pause, resume, restart } from '../actions'
+import { moveDown, moveLeft, moveRight, rotate, rotatePrev,
+  pause, resume, restart, drop, holdShape } from '../actions'
 import { controlKeys } from '../utils'
 
 export default function Controls(props) {
@@ -15,7 +16,7 @@ export default function Controls(props) {
       document.removeEventListener('keydown', handleKeyDown);
     };
   });
- 
+
   const handleKeyDown = (e) => {
     if (e.defaultPrevented) return
 
@@ -41,6 +42,9 @@ export default function Controls(props) {
       return
     }
 
+    // TODO: enable this when drop() works
+    // if (controlKeys.drop.includes(e.key)) dispatch(drop())
+
     // Move down
     if (controlKeys.down.includes(e.key)) dispatch(moveDown())
 
@@ -51,6 +55,10 @@ export default function Controls(props) {
     // rotate forwards/backwards
     if (controlKeys.rotate.includes(e.key)) dispatch(rotate())
     else if (controlKeys.rotatePrev.includes(e.key)) dispatch(rotatePrev())
+
+
+    // Hold shape
+    if (controlKeys.holdShape.includes(e.key)) dispatch(holdShape())
 
     e.preventDefault();
   }

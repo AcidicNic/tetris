@@ -13,6 +13,7 @@ export default function ScoreBoard(props) {
       <div>Level: { level }</div>
       <div>Lines: { lines }</div>
       <div>Score: { score }</div>
+      <div>Speed: { game.speed }</div>
       <button className="score-board-button" onClick={(e) => {
         if (gameOver) { return }
         if (isRunning) {

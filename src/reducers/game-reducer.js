@@ -1,6 +1,5 @@
 import {
-  MOVE_RIGHT, MOVE_LEFT, MOVE_DOWN, ROTATE,
-  ROTATE_PREV, PAUSE, RESUME, RESTART, GAME_OVER
+  MOVE_RIGHT, MOVE_LEFT, MOVE_DOWN, ROTATE, HOLD_SHAPE, DROP, ROTATE_PREV, PAUSE, RESUME, RESTART, GAME_OVER
 } from '../actions'
 
 import {
@@ -12,11 +11,15 @@ import {
   checkRows,
   calculateLevel,
   calculateSpeed,
-  saveHighScore
+  saveHighScore,
+  defaultValues,
+  moveBlockDown,
+  randomShape
 } from '../utils'
 
 const gameReducer = (state = defaultState(), action) => {
-  const { shape, grid, x, y, rotation, nextShape, score, isRunning, lines, level, speed, scoreSaved } = state
+  const { shape, grid, x, y, rotation, nextShape, holdShape,
+    score, isRunning, lines, level, speed, scoreSaved, canHoldShape } = state
   switch(action.type) {
       case ROTATE:
         const newCwRotation = nextRotation(shape, rotation)
@@ -45,41 +48,7 @@ const gameReducer = (state = defaultState(), action) => {
         return state
 
       case MOVE_DOWN:
-        const maybeY = y + 1
-        if (canMoveTo(shape, grid, x, maybeY, rotation)) {
-          return { ...state, y: maybeY }
-        }
-        const obj = addBlockToGrid(shape, grid, x, y, rotation)
-        const newGrid = obj.grid
-        const gameOver = obj.gameOver
-
-        if (gameOver) {
-          const newState = { ...state }
-          newState.shape = 0
-          newState.grid = newGrid
-          if (!scoreSaved) {
-            saveHighScore(score)
-            return { ...state, gameOver: true, scoreSaved: true }
-          }
-          return { ...state, gameOver: true }
-        }
-
-        const newState = defaultState()
-        newState.grid = newGrid
-        newState.shape = nextShape
-        newState.score = score
-        newState.isRunning = isRunning
-        newState.lines = lines
-        newState.level = level
-        newState.speed = speed
-
-        const newScore = checkRows(newGrid)
-        newState.score = score + (newScore.points * (level + 1))
-        newState.lines = lines + newScore.lines
-        newState.level = calculateLevel(newState.lines)
-        newState.speed = calculateSpeed(newState.level)
-
-        return newState
+        return moveBlockDown(state)
 
       case RESUME:
         return { ...state, isRunning: true }
@@ -93,8 +62,37 @@ const gameReducer = (state = defaultState(), action) => {
       case RESTART:
         return defaultState()
 
+      case HOLD_SHAPE:
+        if (!canHoldShape) return state
+        let newShape = holdShape
+        let newNextShape = nextShape
+        if (holdShape === 0) {
+          newShape = nextShape
+          newNextShape = randomShape()
+        }
+        return { ...state,
+          shape: newShape,
+          holdShape: shape,
+          nextShape: newNextShape,
+          canHoldShape: false,
+          x: defaultValues.x,
+          y: defaultValues.y,
+        }
+
+      case DROP:
+        // TODO: make this work????
+        // let maybeY = y
+        // let newState = state
+        //
+        // while (canMoveTo(shape, grid, x, maybeY + 1, rotation)) {
+        //   newState = moveBlockDown(state, maybeY)
+        // }
+        //
+        // return newState
+
       default:
         return state
     }
 }
+
 export default gameReducer

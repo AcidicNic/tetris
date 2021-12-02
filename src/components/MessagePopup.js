@@ -6,10 +6,12 @@ export default function MessagePopup(props) {
   const gameOver = useSelector((state) => state.game.gameOver)
 
   let message = ''
+  let details = ''
   let isHidden = 'hidden'
 
   if (gameOver) {
     message = 'Game Over'
+    details = 'Press Space or Enter to restart!'
     isHidden = ''
   } else if (!isRunning) {
     message = 'Paused'
@@ -19,6 +21,7 @@ export default function MessagePopup(props) {
   return (
     <div className={`message-popup ${ isHidden }`}>
       <h1>{ message }</h1>
+      <p>{ details }</p>
     </div>
   )
 }

@@ -99,16 +99,23 @@ body {
   grid-gap: 1px;
 }
 
-.next-title {
+.block-info {
+  grid-area: l;
+}
+
+.next-title, .hold-title {
   margin-bottom: 5px;
 }
 
-.next-block {
+.next-block, .hold-block {
   display: grid;
   grid-template-columns: repeat(4, var(--tile-size));
   align-self: flex-start;
-  grid-area: l;
   grid-gap: 1px;
+}
+
+.next-block {
+  margin-bottom: 1em;
 }
 
 .score-board {
